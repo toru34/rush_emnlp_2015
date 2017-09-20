@@ -1,10 +1,13 @@
 # toru34
-data/*
+data
 *.ipynb
 .DS_Store
 *.dump
 *.data
 *.meta
+sumdata
+*.gz
+*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

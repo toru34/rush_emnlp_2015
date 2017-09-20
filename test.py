@@ -11,6 +11,7 @@ def main():
     parser = argparse.ArgumentParser(description='A Neural Attention Model for Abstractive Sentence Summarization in DyNet')
 
     parser.add_argument('--gpu', type=int, default=-1, help='GPU ID to use. For cpu, set -1 [default: -1]')
+    parser.add_argument('--n_test', type=int, default=100, help='Number of test examples [default: 100]')
     parser.add_argument('--beam_size', type=int, default=5, help='Beam size for decoding [default: 5]')
     parser.add_argument('--max_len', type=int, default=50, help='Maximum length of decoding [defaut: 50]')
     parser.add_argument('--model_file', type=str, default='./model', help='File path of the trained model [default: ./model]')
@@ -30,6 +31,7 @@ def main():
         import _gdynet as dy # Use gpu
 
     K = args.beam_size
+    N_TEST = args.n_test
     MAX_LEN = args.max_len
     MODEL_FILE = args.model_file
     INPUT_FILE = args.input_file
@@ -49,6 +51,8 @@ def main():
         i2w = pickle.load(f_i2w)
 
     test_X, _, _ = build_dataset(INPUT_FILE, w2i=w2i)
+
+    test_X = test_X[:N_TEST]
 
     model = dy.Model()
     rush_abs = dy.load(MODEL_FILE, model)[0]

@@ -18,6 +18,8 @@ sh download_giga.sh
 ### 3. Train
 #### Arguments
 - `--gpu`: GPU ID to use. For cpu, set -1 [default: -1]
+- `--n_train`: Number of training examples (up to 3803957 in gigaword) [default: 100000]
+- `--n_valid`: Number of validation examples (up to 189651 in gigaword) [default: 100]
 - `--n_epochs`: Number of epochs for training [default: 10]
 - `--batch_size`: Batch size for training [default: 64]
 - `--emb_dim`: Embedding size for word [default: 200]
@@ -38,6 +40,7 @@ python train.py --n_epochs 10
 ### 4. Test
 #### Arguments
 - `--gpu`: GPU ID to use. For cpu, set -1 [default: -1]
+- `--n_test`: Number of test examples [default: 100]
 - `--beam_size`: Beam size for decoding [default: 5]
 - `--max_len`: Maximum length of decoding [default: 50]
 - `--model_file`: File path of the trained model [default: ./model]

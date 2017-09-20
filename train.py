@@ -18,6 +18,8 @@ def main():
     parser = argparse.ArgumentParser(description='A Neural Attention Model for Abstractive Sentence Summarization in DyNet')
 
     parser.add_argument('--gpu', type=int, default=-1, help='GPU ID to use. For cpu, set -1 [default: -1]')
+    parser.add_argument('--n_train', type=int, default=100000, help='Number of training examples [default: 100000]')
+    parser.add_argument('--n_valid', type=int, default=100, help='Number of validation examples [default: 100]')
     parser.add_argument('--n_epochs', type=int, default=10, help='Number of epochs [default: 10]')
     parser.add_argument('--batch_size', type=int, default=64, help='Mini batch size [default: 64]')
     parser.add_argument('--emb_dim', type=int, default=200, help='Embedding size [default: 200]')
@@ -41,6 +43,8 @@ def main():
 
     vocab_size = args.vocab_size
     N_EPOCHS = args.n_epochs
+    N_TRAIN = args.n_train
+    N_VALID = args.n_valid
     BATCH_SIZE = args.batch_size
     EMB_DIM = args.emb_dim
     HID_DIM = args.hid_dim
@@ -73,6 +77,9 @@ def main():
     valid_X, _, _ = build_dataset(VALID_X_FILE, w2i=w2i)
     valid_y, _, _ = build_dataset(VALID_Y_FILE, w2i=w2i, target=True)
     valid_y = [[w2i['<s>']]*(C-1)+instance_y for instance_y in valid_y]
+
+    train_X, train_y = train_X[:N_TRAIN], train_y[:N_TRAIN]
+    valid_X, valid_y = valid_X[:N_VALID], valid_y[:N_VALID]
 
     train_X, train_y = sort_data_by_length(train_X, train_y)
     valid_X, valid_y = sort_data_by_length(valid_X, valid_y)
@@ -119,9 +126,36 @@ def main():
             mb_loss.backward()
             trainer.update()
 
-        print('EPOCH: %d, Train Loss: %.3f, Time: %.3f[s]' % (
+        # Valid
+        loss_all_valid = []
+        for i in range(n_batches_valid):
+            # Create a new computation graph
+            dy.renew_cg()
+            rush_abs.associate_parameters()
+
+            # Create a mini batch
+            start = i*BATCH_SIZE
+            end = start + BATCH_SIZE
+            valid_X_mb = valid_X[start:end]
+            valid_y_mb = valid_y[start:end]
+
+            losses = []
+            for instance_x, instance_y in zip(valid_X_mb, valid_y_mb):
+                x, t_in, t_out = instance_x, instance_y[:-1], instance_y[C:]
+
+                y = rush_abs(x, t_in)
+                loss = dy.esum([dy.pickneglogsoftmax(y_t, t_t) for y_t, t_t in zip(y, t_out)])
+                losses.append(loss)
+
+            mb_loss = dy.average(losses)
+
+            # Forward propagation
+            loss_all_valid.append(mb_loss.value())
+
+        print('EPOCH: %d, Train Loss: %.3f, Valid Loss: %.3f, Time: %.3f[s]' % (
             epoch+1,
             np.mean(loss_all_train),
+            np.mean(loss_all_valid),
             time.time()-start_time,
         ))
 
