@@ -1,35 +1,56 @@
 ## A Neural Attention Model for Abstractive Sentence Summarization
-DyNet implementation of the paper A Neural Attention Model for Abstractive Sentence Summarization (EMNLP 2015).
+Unofficial DyNet implementation of the paper A Neural Attention Model for Abstractive Sentence Summarization (EMNLP 2015).
 
-# Requirement
+### 1. Requirement
 - Python 3.6.0+
 - DyNet 2.0+
 - Numpy 1.12.1+
 - scikit-learn 0.19.0+
 - tqdm 4.15.0+
 
-## Argument for training
-- `--n_epochs`: Number of epochs for training [default: 2]
-- `--batch_size`: Batch size for training [default: 16]
-- `--emb_dim`: Embedding size for word [default: 32]
-- `--hid_dim`: Hidden state size [default: 32]
-- `--vocab_size`: Vocabulary size [default: 10000]
+### 2. Prepare dataset
+
+### 3. Train
+#### Arguments
+- `--gpu`: GPU ID to use. For cpu, set -1 [default: -1]
+- `--n_epochs`: Number of epochs for training [default: 10]
+- `--batch_size`: Batch size for training [default: 64]
+- `--emb_dim`: Embedding size for word [default: 200]
+- `--hid_dim`: Hidden state size [default: 400]
+- `--vocab_size`: Vocabulary size [default: 60000]
 - `--encoder_type`: Encoder type [default: \'attention\']
     - `'bow'`: Bag-of-Words Encoder
     - `'attention'`: Attention-Based Encoder
 - `--c`: Window size for neural language model [default: 5]
 - `--q`: Window size for attention-based encoder [default: 2]
+- `--alloc_mem`: Amount of memory to allocate [mb] [default: 4096]
 
-### Arguments for test
-Work in progress.
-
-### How to train (example)
+#### Command example
 ```
-python train.py --n_epochs 10 --batch_size 32 --emb_dim 64 --hid_dim 64 --vocab_size 30000 --encoder_type 'attention' --c 5 --q 2
+python train.py --n_epochs 10
 ```
 
-### How to test (example)
+### 4. Test
+#### Arguments
+- `--gpu`: GPU ID to use. For cpu, set -1 [default: -1]
+- `--beam_size`: Beam size for decoding [default: 5]
+- `--max_len`: Maximum length of decoding [default: 50]
+- `--model_file`: File path of the trained model [default: ./model]
+- `--input_file`: Input file path [default: ./data/valid_x.txt]
+- `--output_file`: Output file path [default: ./pred_y.txt]
+- `--w2i_file`: Word2Index file path [default: ./w2i.dump]
+- `--i2w_file`: Index2Word file path [default: ./i2w.dump]
+- `--alloc_mem`: Amount of memory to allocate [mb] [default: 1024]
+
+#### Command example
+```
+python test.py --beam_size 10
+```
+
+### 5. Results
 Work in progress.
 
-References
+### Notes
+
+### References
 - A. M. Rush et al. 2015. A Neural Attention Model for Abstractive Sentence Summarization. In Proceedings of EMNLP 2015 \[[pdf\]](http://aclweb.org/anthology/D/D15/D15-1044.pdf)
