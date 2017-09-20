@@ -9,6 +9,11 @@ Unofficial DyNet implementation of the paper A Neural Attention Model for Abstra
 - tqdm 4.15.0+
 
 ### 2. Prepare dataset
+To get gigaword corpus, run
+```
+sh download_giga.sh
+```
+.
 
 ### 3. Train
 #### Arguments
