@@ -6,11 +6,13 @@ import argparse
 
 import gensim
 import numpy as np
+import _dynet as dy
 from tqdm import tqdm
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split
 
 from utils import build_word2count, build_dataset, sort_data_by_length
+from layers import ABS
 
 RANDOM_STATE = 34
 
@@ -33,13 +35,6 @@ def main():
     print(args)
 
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
-
-    if args.gpu < 0:
-        import _dynet as dy  # Use cpu
-    else:
-        import _gdynet as dy # Use gpu
-
-    from layers import ABS
 
     vocab_size = args.vocab_size
     N_EPOCHS = args.n_epochs

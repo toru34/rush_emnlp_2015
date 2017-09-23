@@ -1,8 +1,4 @@
-import os
-if int(os.environ['CUDA_VISIBLE_DEVICES']) < 0:
-    import _dynet as dy  # Use cpu
-else:
-    import _gdynet as dy # Use gpu
+import _dynet as dy
 
 class ABS:
     def __init__(self, model, emb_dim, hid_dim, vocab_size, q, c, encoder_type='attention'):
