@@ -59,7 +59,8 @@ python test.py --beam_size 10
 Work in progress.
 
 ### Notes
-- Extractive Tuning is not implemented.
+- Convolutional encoder is not implemented.
+- Extractive tuning is not implemented.
 - Official code: https://github.com/facebookarchive/NAMAS
 
 ### References
