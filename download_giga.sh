@@ -11,4 +11,4 @@ gzip -d ./sumdata/train/*.gz
 
 # Move
 mkdir data
-mv ./sumdata/train/* ./data/
+cp ./sumdata/train/* ./data/
