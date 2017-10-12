@@ -1,6 +1,6 @@
 ## A Neural Attention Model for Abstractive Sentence Summarization
 
-Unofficial DyNet implementation of the paper A Neural Attention Model for Abstractive Sentence Summarization (EMNLP 2015)[1]
+Unofficial DyNet implementation of the paper A Neural Attention Model for Abstractive Sentence Summarization (EMNLP 2015)[1].
 
 ### 1. Requirements
 - Python 3.6.0+
@@ -14,6 +14,7 @@ To get preprocedded gigaword corpus, run
 ```
 sh download_data.sh
 ```
+.
 
 ### 3. Train
 #### Arguments
@@ -55,8 +56,26 @@ python train.py --n_epochs 10
 python test.py --beam_size 10
 ```
 
-### 5. Results
+### 5. Evaluate
+You can use pythonrouge[2] to compute the ROUGE scores.
+An example is in `evaluate.ipynb`.
+
+### 6. Results
+#### 6.1. Gigaword
+Compute ROUGE scorew with 101 valid data.
+| |ROUGE-1(F1)|ROUGE-2(F1)|ROUGE-L(F1)|
+|-|:-:|:-:|:-:|
+|My implementation|31.56|14.56|30.02|
+
+#### 6.2. DUC2004
 Work in progress.
+
+### 7. Pretrained model
+To get the pretrained model, run
+```
+sh download_pretrained_model.sh
+```
+.
 
 ### Notes
 - Convolutional encoder is not implemented.
@@ -65,3 +84,4 @@ Work in progress.
 
 ### References
 - [1] A. M. Rush et al. 2015. A Neural Attention Model for Sentence Summarization. In Proceedings of EMNLP 2015 \[[pdf\]](https://aclweb.org/anthology/D/D15/D15-1044.pdf)
+- [2] pythonrouge: https://github.com/tagucci/pythonrouge
