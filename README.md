@@ -64,7 +64,7 @@ An example is in `evaluate.ipynb`.
 #### 6.1. Gigaword
 Compute ROUGE scorew with 101 valid data.
 
-| |ROUGE-1(F1)|ROUGE-2(F1)|ROUGE-L(F1)|
+| |ROUGE-1 (F1)|ROUGE-2 (F1)|ROUGE-L (F1)|
 |-|:-:|:-:|:-:|
 |My implementation|31.56|14.56|30.02|
 
